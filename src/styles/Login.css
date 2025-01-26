@@ -1,0 +1,17 @@
+/* Login.css */
+.login-popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 75px;
+    right: 50px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+
+.loginButton {
+    width: 100%;
+}
