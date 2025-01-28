@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
+    color: var(--secondary-color);
   }
 
   :root{
@@ -10,6 +11,7 @@
     --primary-color:  #008009;
     --secondary-color: #000000;
     --icon-background-color: #CCCCCC;
+    --link: #146efd;
   }
 
   [data-theme="dark"]{

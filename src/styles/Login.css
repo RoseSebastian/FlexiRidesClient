@@ -4,14 +4,20 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 75px;
+    top: 60px;
     right: 50px;
     padding: 25px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    background: var(--background-color);
+    max-width: 400px;
 }
-
-
 
 .loginButton {
     width: 100%;
+    margin-top: 15px;
+}
+.restButton{
+    width: 100%;
+    margin-top: 15px;
 }

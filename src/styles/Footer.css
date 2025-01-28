@@ -1,0 +1,10 @@
+.footer-content{
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    background-color: var(--icon-background-color);
+}
+img {
+    width: 120px;
+    height: 60px;
+}

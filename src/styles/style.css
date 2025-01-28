@@ -4,7 +4,6 @@ button {
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
-    margin: 8px 0;
     background-color: transparent;
   }
   
@@ -19,6 +18,17 @@ button {
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
   }
+
+  button.secondary:hover {
+    color: var(--secondary-color);
+    border: 1px solid var(--primary-color);
+    background-color: var(--primary-color);
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
   
   label {
     font-size: 14px;
@@ -30,17 +40,22 @@ button {
   input[type="text"],
   input[type="password"],
   input[type="email"],
+  input[type="tel"],
+  input[type="file"],
   textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+    margin-bottom: 10px;
   }
   
   input[type="text"]:focus,
   input[type="password"]:focus,
   input[type="email"]:focus,
+  input[type="tel"]:focus,
+  input[type="file"],
   textarea:focus {
     border-color: var(--secondary-color);
     outline: none;
@@ -48,4 +63,26 @@ button {
   
   textarea {
     resize: vertical;
+  }
+
+  .link{
+    color: var(--link);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .appContainer{
+    padding: 25px 50px;
+    min-height: calc(100vh - 123px);
+  }
+
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .required {
+    color: red;
+    margin-left: 5px;
   }
