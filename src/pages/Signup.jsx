@@ -39,9 +39,13 @@ const Signup = () => {
     }
     
     setErrors(updatedErrors);
-
+console.log(updatedErrors)
     const isFormValid = Object.values(updatedFormData).every(
-      (field) => field !== ""
+      (field) => {
+        console.log(field)
+        
+        return field !== "" || field == null ||  typeof(field) === File;
+      }
     ) && !Object.keys(updatedErrors).length;
     setIsFormValid(isFormValid);
   };
