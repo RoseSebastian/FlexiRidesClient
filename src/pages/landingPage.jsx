@@ -6,8 +6,14 @@ import hatchback from "../assets/hatchback.png";
 import electric from "../assets/electric.png";
 import "../styles/landingPage.css";
 import Carousel from 'react-bootstrap/Carousel';
+import { useNavigate } from "react-router-dom";
 
 export function LandingPage(props) {
+  const navigate = useNavigate();
+
+  const handleSignupClick = () => {
+    navigate("/signup");
+  };
   return (
     <>
       <section className="landingpage">
@@ -43,7 +49,7 @@ export function LandingPage(props) {
               <h4 className="countLabel">Rides</h4>
             </div>
           </div> */}
-          <button className="primary join">Join for free</button>
+          <button className="primary join" onClick={handleSignupClick}>Join for free</button>
         </section>
         <section className="landingpageCars">
           <h1>View our fleet</h1>

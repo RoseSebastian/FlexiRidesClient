@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import "../styles/Login.css";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setIsLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [forgotPassword, setForgotPassword] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSignupClick = () => {
+    setIsLogin(false);
+    navigate("/signup");
+  };
 
   const handleLogin = (e) => {
+    setIsLogin(false);
     e.preventDefault();
     // Handle login logic here
   };
   const handleForgotPassword = (e) => {
-    //setForgotPassword(false);
+
+    setForgotPassword(false);
+    setIsLogin(false);
   };
   return (
     <div className="login-popup">
@@ -49,7 +59,7 @@ const Login = () => {
           </form>
           <div className="login-options">
             <span>Don't have an account? </span>
-            <a href="/signup">Sign Up</a>
+            <span className="link" onClick={handleSignupClick}>Sign Up</span>
           </div>
         </div>
       ) : (
