@@ -1,6 +1,6 @@
 import React from 'react';
-import '../styles/Footer.css'; 
-import logo from "../assets/logo_flexiRides.png";
+import '../../styles/shared/Footer.css'; 
+import logo from "../../assets/logo_flexiRides.png";
 
 const Footer = () => {
     return (

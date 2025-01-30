@@ -12,12 +12,15 @@
     --secondary-color: #000000;
     --icon-background-color: #CCCCCC;
     --link: #146efd;
+    --footer-background-color: #FFFFFF;
+    --shadow: #00800947;
   }
 
   [data-theme="dark"]{
-    --background-color: #000000;
+    --background-color: #101218;
     --primary-color: #008009;
     --secondary-color: #FFFFFF;
+    --footer-background-color: #000000;
   }
 
   

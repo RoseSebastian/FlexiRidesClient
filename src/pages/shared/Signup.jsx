@@ -1,7 +1,24 @@
 import React, { useState } from "react";
-import "../styles/Signup.css";
+import "../../styles/shared/Signup.css";
+import { axiosInstance } from "../../config/axiosInstance";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-const Signup = () => {
+const Signup = ({ role = "user" }) => {
+  const navigate = useNavigate();
+
+  const user = {
+    role: "user",
+    register_api: "/user/register",
+    home_url: "/",
+  };
+
+  if (role === "admin") {
+    user.role = "admin";
+    user.register_api = "/admin/register";
+    user.home_url = "/admin";
+  }
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -9,8 +26,7 @@ const Signup = () => {
     password: "",
     address: "",
     profilePic: null,
-  });
-
+  });  
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -24,64 +40,56 @@ const Signup = () => {
 
     const updatedErrors = { ...errors };
     if (name === "password") {
-      if(value.length < 8){
+      if (value.length < 8) {
         updatedErrors.password = "Password must be at least 8 characters long";
-      }else{
+      } else {
         delete updatedErrors.password;
       }
     }
     if (name === "email") {
-      if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)){
+      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
         updatedErrors.email = "Invalid email address";
-      }else{
+      } else {
         delete updatedErrors.email;
       }
     }
-    
     setErrors(updatedErrors);
-console.log(updatedErrors)
-    const isFormValid = Object.values(updatedFormData).every(
-      (field) => {
-        console.log(field)
-        
-        return field !== "" || field == null ||  typeof(field) === File;
-      }
-    ) && !Object.keys(updatedErrors).length;
+
+    const isFormValid =
+      Object.values(updatedFormData).every((field) => {
+        return field !== "" || field == null || typeof field === File;
+      }) && !Object.keys(updatedErrors).length;
     setIsFormValid(isFormValid);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedErrors = {};
-    Object.keys(formData).forEach((key) => {
-      if (!formData[key]) {
-        updatedErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
-      }
-    });
-
-    if (formData.password && formData.password.length < 8) {
-      updatedErrors.password = "Password must be at least 8 characters long";
-    }
-
-    if (formData.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
-      updatedErrors.email = "Invalid email address";
-    }
-
-    setErrors(updatedErrors);
-
     if (Object.keys(errors).length === 0) {
-      // Handle form submission logic here
-      console.log(formData);
+      try {
+        const response = await axiosInstance({
+          method: "POST",
+          url: user.register_api,
+          data: formData,
+        });
+        toast.success(`${response.data.message} Please login to continue`);
+        setTimeout(() => {
+          navigate(user.home_url);
+        }, 2000);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
     }
   };
 
   return (
-    <div className="appContainer">      
-      <div className="signupForm">
-      <h2>Signup</h2>
+    <div className="appContainer">
+      <div className="signupForm">        
+        <h2>Signup</h2>
         <form onSubmit={handleSubmit}>
           <div>
-            <label>Name:<span className="required">*</span></label>
+            <label>
+              Name:<span className="required">*</span>
+            </label>
             <input
               type="text"
               name="username"
@@ -89,10 +97,11 @@ console.log(updatedErrors)
               onChange={handleChange}
               required
             />
-            {errors.username && <span className="error">{errors.name}</span>}
           </div>
           <div>
-            <label>Email:<span className="required">*</span></label>
+            <label>
+              Email:<span className="required">*</span>
+            </label>
             <input
               type="email"
               name="email"
@@ -103,7 +112,9 @@ console.log(updatedErrors)
             {errors.email && <span className="error">{errors.email}</span>}
           </div>
           <div>
-            <label>Phone:<span className="required">*</span></label>
+            <label>
+              Phone:<span className="required">*</span>
+            </label>
             <input
               type="tel"
               name="phone"
@@ -111,10 +122,11 @@ console.log(updatedErrors)
               onChange={handleChange}
               required
             />
-            {errors.phone && <span className="error">{errors.phone}</span>}
-          </div>          
+          </div>
           <div>
-            <label>Address:<span className="required">*</span></label>
+            <label>
+              Address:<span className="required">*</span>
+            </label>
             <textarea
               type="text"
               name="address"
@@ -122,10 +134,11 @@ console.log(updatedErrors)
               onChange={handleChange}
               required
             />
-            {errors.address && <span className="error">{errors.address}</span>}
           </div>
           <div>
-            <label>Password:<span className="required">*</span></label>
+            <label>
+              Password:<span className="required">*</span>
+            </label>
             <input
               type="password"
               name="password"
@@ -133,17 +146,19 @@ console.log(updatedErrors)
               onChange={handleChange}
               required
             />
-            {errors.password && <span className="error">{errors.password}</span>}
+            {errors.password && (
+              <span className="error">{errors.password}</span>
+            )}
           </div>
           <div>
             <label>Profile Photo:</label>
-            <input
-              type="file"
-              name="profilePic"
-              onChange={handleChange}
-            />
+            <input type="file" name="profilePic" onChange={handleChange} />
           </div>
-          <button className="primary signupButton" type="submit" disabled={!isFormValid}>
+          <button
+            className="primary signupButton"
+            type="submit"
+            disabled={!isFormValid}
+          >
             Register
           </button>
         </form>

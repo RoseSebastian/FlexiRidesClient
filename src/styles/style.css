@@ -73,7 +73,7 @@ button {
 
   .appContainer{
     padding: 25px 50px;
-    min-height: calc(100vh - 123px);
+    min-height: calc(100vh - 140px);
   }
 
   .error {
@@ -87,3 +87,18 @@ button {
     color: red;
     margin-left: 5px;
   }
+
+  .dropdown-menu.show {
+    background: var(--background-color);
+}
+.dropdown-item:active {  
+  background-color: var(--primary-color);
+}
+
+.errorContainer{
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ padding: 100px;
+}

@@ -2,7 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: end;
-    background-color: var(--icon-background-color);
+    background-color: var(--footer-background-color);
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.5);
 }
 img {
     width: 120px;

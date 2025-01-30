@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles/style.css";
 // import ThemeToggle from "./components/ThemeToggle";
 // import useLocalStorage from "use-local-storage";
-import { Header } from "./components/Header";
-import { LandingPage } from "./pages/LandingPage";
-import Footer from "./components/Footer";
-import Signup from "./pages/Signup";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/router";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   // const [isDark, setIsDark] = useLocalStorage(false);
@@ -15,14 +12,10 @@ function App() {
   //   setIsDark(!isDark);
   // };
   return (
-    <div className="App">
-      <Header />
-      
-        <LandingPage />
-        {/* <Signup /> */}
-      
-      <Footer />
-    </div>
+    <>
+      <RouterProvider router={router} />
+      <Toaster />
+    </>
   );
 }
 
