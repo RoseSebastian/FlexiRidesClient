@@ -4,7 +4,7 @@ import suv from "../../assets/suv.png";
 import sedan from "../../assets/sedan.png";
 import hatchback from "../../assets/hatchback.png";
 import electric from "../../assets/electric.png";
-import "../../styles/shared/LandingPage.css";
+import "../../styles/shared/landingPage.css";
 import Cookies from "js-cookie";
 import Carousel from "react-bootstrap/Carousel";
 import { useNavigate } from "react-router-dom";
