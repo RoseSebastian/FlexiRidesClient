@@ -5,12 +5,13 @@ import sedan from "../../assets/sedan.png";
 import hatchback from "../../assets/hatchback.png";
 import electric from "../../assets/electric.png";
 import "../../styles/shared/LandingPage.css";
+import Cookies from "js-cookie";
 import Carousel from "react-bootstrap/Carousel";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { saveUserData } from "../../redux/feature/userSlice";
-import { saveAdminData } from "../../redux/feature/adminSlice";
+import { saveUserData, clearUserData } from "../../redux/feature/userSlice";
+import { clearAdminData, saveAdminData } from "../../redux/feature/adminSlice";
 import { UserRoundCog } from "lucide-react";
 import { CarTaxiFront } from "lucide-react";
 import { BookUser } from "lucide-react";
@@ -28,8 +29,23 @@ const LandingPage = ({ role = "user" }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     let userData = localStorage.getItem("userData");
-    userData = JSON.parse(userData);
-    console.log(userData);
+   
+
+    const token = Cookies.get("token");
+    if (token) {
+      if (userData) {
+        userData = JSON.parse(userData);
+        if (userData?.role === "user") {
+          dispatch(saveUserData(userData));
+        } else {
+          dispatch(saveAdminData(userData));
+        }
+      }
+    } else {
+      localStorage.removeItem("userData");
+      dispatch(clearUserData());
+      dispatch(clearAdminData());
+    }
     if (userData) {
       if (userData?.role === "user") {
         dispatch(saveUserData(userData));
