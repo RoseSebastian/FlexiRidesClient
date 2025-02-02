@@ -4,16 +4,18 @@ import Signup from "../pages/shared/Signup";
 import AdminLayout from "../layouts/AdminLayout";
 import UserLayout from "../layouts/UserLayout";
 import { ErrorPage } from "../pages/shared/ErrorPage";
-import { ProtectedRouteAdmin } from "./ProtectedRouteAdmin"
-import Bookings from "../pages/admin/Bookings"
-import Cars from "../pages/admin/Cars"
-import Users from "../pages/admin/Users"
+import { ProtectedRouteAdmin } from "./ProtectedRouteAdmin";
+import Bookings from "../pages/admin/Bookings";
+import Cars from "../pages/admin/Cars";
+import Users from "../pages/admin/Users";
+import Profile from "../pages/shared/Profile";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <UserLayout />,
-    errorElement: <ErrorPage />,
+    errorElement: <ErrorPage role="user" />,
     children: [
       {
         path: "",
@@ -23,12 +25,21 @@ const router = createBrowserRouter([
         path: "signup",
         element: <Signup />,
       },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "profile",
+            element: <Profile role="user" />,
+          },
+        ],
+      },
     ],
   },
   {
     path: "/admin",
     element: <AdminLayout />,
-    errorElement: <ErrorPage role = "admin"/>,
+    errorElement: <ErrorPage role="admin" />,
     children: [
       {
         path: "",
@@ -38,21 +49,24 @@ const router = createBrowserRouter([
         element: <ProtectedRouteAdmin />,
         children: [
           {
+            path: "profile",
+            element: <Profile role="admin" />,
+          },
+          {
             path: "bookings",
-            element: <Bookings />
+            element: <Bookings />,
           },
           {
             path: "users",
-            element: <Users />
+            element: <Users />,
           },
           {
             path: "cars",
-            element: <Cars />
-          }
-        ]
-      }
-
-   ]
+            element: <Cars />,
+          },
+        ],
+      },
+    ],
   },
 ]);
 

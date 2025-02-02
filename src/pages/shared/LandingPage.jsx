@@ -17,20 +17,27 @@ import { CarTaxiFront } from "lucide-react";
 import { BookUser } from "lucide-react";
 
 const LandingPage = ({ role = "user" }) => {
-  let isDark = localStorage.getItem("isDark");
-  if (isDark === "true") {
-    isDark = true;
-  } else {
-    isDark = false;
-  }
-  document
-    .querySelector("html")
-    .setAttribute("data-theme", isDark ? "dark" : "light");
   const dispatch = useDispatch();
-  useEffect(() => {
-    let userData = localStorage.getItem("userData");
-   
+  const navigate = useNavigate();
 
+  const user = {
+    role: "user",
+    signup_url: "/signup",
+    userData: useSelector((state) => state.user.userData),
+    userAuth: useSelector((state) => state.user.isUserAuth),
+  };
+  if (role === "admin") {
+    user.role = "admin";
+    user.signup_url = "/admin/signup";
+    user.userData = useSelector((state) => state.admin.adminData);
+    user.userAuth = useSelector((state) => state.admin.isAdminAuth);
+  }
+
+  let isDark = localStorage.getItem("isDark") === "true";
+  document.querySelector("html").setAttribute("data-theme", isDark ? "dark" : "light");
+  
+  useEffect(() => {
+    let userData = localStorage.getItem("userData");  
     const token = Cookies.get("token");
     if (token) {
       if (userData) {
@@ -45,35 +52,17 @@ const LandingPage = ({ role = "user" }) => {
       localStorage.removeItem("userData");
       dispatch(clearUserData());
       dispatch(clearAdminData());
-    }
-    if (userData) {
-      if (userData?.role === "user") {
-        dispatch(saveUserData(userData));
-      } else {
-        dispatch(saveAdminData(userData));
-      }
-    }
+    }    
   }, [dispatch]);
-  const navigate = useNavigate();
-  const user = {
-    role: "user",
-    signup_url: "/signup",
-    userData: useSelector((state) => state.user.userData),
-    userAuth: useSelector((state) => state.user.isUserAuth),
-  };
-
-  if (role === "admin") {
-    user.role = "admin";
-    user.signup_url = "/admin/signup";
-    user.userData = useSelector((state) => state.admin.adminData);
-    user.userAuth = useSelector((state) => state.admin.isAdminAuth);
-  }
+  
   const handleSignupClick = () => {
     navigate("/signup");
   };
+
   const handleCarClick = () => {
     navigate("/cars");
   };
+  
   return (
     <>
       <section className="landingpage">

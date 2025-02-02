@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import "../../styles/shared/ThemeToggle.css";
 
 const ThemeToggle = ({ handleChange, isChecked }) => {
-    let isDarkTheme = localStorage.getItem("isDark");
-    console.log(isDarkTheme)
-  const [isDark, setIsDark] = useState(isDarkTheme === 'true'? true : false);  
-  document.querySelector("html").setAttribute("data-theme", isDark ? "dark" : "light");
+  let isDarkTheme = localStorage.getItem("isDark");
+  const [isDark, setIsDark] = useState(isDarkTheme === "true" ? true : false);
+  document
+    .querySelector("html")
+    .setAttribute("data-theme", isDark ? "dark" : "light");
   const toggleTheme = () => {
     setIsDark(!isDark);
     localStorage.setItem("isDark", !isDark);

@@ -31,6 +31,10 @@ export function Header() {
     navigate("/");
   };
 
+  const handleProfileClick = () => {
+    navigate("/profile")
+  }
+
   const handleLogout = async () => {
     try {
       const response = await axiosInstance({
@@ -68,7 +72,7 @@ export function Header() {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <ThemeToggle />
-                <Dropdown.Item>Profile</Dropdown.Item>
+                <Dropdown.Item onClick={handleProfileClick}>Profile</Dropdown.Item>
                 <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

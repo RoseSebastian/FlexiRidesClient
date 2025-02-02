@@ -49,6 +49,7 @@ button {
     border-radius: 4px;
     font-size: 16px;
     margin-bottom: 10px;
+    background: var(--background-color);
   }
   
   input[type="text"]:focus,
@@ -74,6 +75,7 @@ button {
   .appContainer{
     padding: 25px 50px;
     min-height: calc(100vh - 140px);
+    background: var(--background-color);
   }
 
   .error {
@@ -101,4 +103,6 @@ button {
  justify-content: center;
  align-items: center;
  padding: 100px;
+ background: var(--background-color);
+ height: 100vh;
 }

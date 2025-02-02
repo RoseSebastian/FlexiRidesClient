@@ -70,6 +70,9 @@ const Signup = ({ role = "user" }) => {
           method: "POST",
           url: user.register_api,
           data: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         });
         toast.success(`${response.data.message} Please login to continue`);
         setTimeout(() => {
