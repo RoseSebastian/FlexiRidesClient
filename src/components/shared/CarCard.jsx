@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import carImg from "../../assets/carImg.jpg";
-import "../../styles/shared/carCard.css";
+import "../../styles/shared/CarCard.css";
 import { Heart } from "lucide-react";
 import { useState } from "react";
 
