@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import "../../styles/shared/Signup.css";
 import { axiosInstance } from "../../config/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import { saveLoadingState } from "../../redux/feature/appSlice";
 
 const Signup = ({ role = "user" }) => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const user = {
     role: "user",
     register_api: "/user/register",
@@ -26,7 +28,7 @@ const Signup = ({ role = "user" }) => {
     password: "",
     address: "",
     profilePic: null,
-  });  
+  });
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -64,6 +66,7 @@ const Signup = ({ role = "user" }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(saveLoadingState(true));
     if (Object.keys(errors).length === 0) {
       try {
         const response = await axiosInstance({
@@ -74,11 +77,13 @@ const Signup = ({ role = "user" }) => {
             "Content-Type": "multipart/form-data",
           },
         });
+        dispatch(saveLoadingState(false));
         toast.success(`${response.data.message} Please login to continue`);
         setTimeout(() => {
           navigate(user.home_url);
         }, 2000);
       } catch (error) {
+        dispatch(saveLoadingState(false));
         toast.error(error.response.data.message);
       }
     }
@@ -86,7 +91,7 @@ const Signup = ({ role = "user" }) => {
 
   return (
     <div className="appContainer">
-      <div className="signupForm">        
+      <div className="signupForm">
         <h2>Signup</h2>
         <form onSubmit={handleSubmit}>
           <div>

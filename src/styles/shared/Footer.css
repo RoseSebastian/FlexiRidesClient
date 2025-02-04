@@ -1,11 +1,16 @@
 .footer-content{
     display: flex;
     justify-content: center;
-    align-items: end;
+    align-items: center;
     background-color: var(--footer-background-color);
     box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.5);
 }
 img {
     width: 120px;
     height: 60px;
+}
+.adminNav{
+    margin-left: 15px;
+    cursor: pointer;
+    color: var(--link);
 }

@@ -1,0 +1,16 @@
+.carSearchContainer{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;    
+}
+.searchInput{
+    display: flex;
+    gap: 5px;
+}
+
+.carList{
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+}

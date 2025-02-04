@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/shared/Header.css";
 import Login from "../shared/Login";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Image from "react-bootstrap/Image";
 import profileIcon from "../../assets/profile-icon.png";
 import Dropdown from "react-bootstrap/Dropdown";
 import ThemeToggle from "../../components/shared/ThemeToggle";
-import { clearAdminData } from "../../redux/feature/adminSlice";
+import { clearAdminData, saveAdminData } from "../../redux/feature/adminSlice";
 import { axiosInstance } from "../../config/axiosInstance";
-import { useDispatch } from "react-redux";
-
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
 export function AdminHeader() {
@@ -21,6 +20,23 @@ export function AdminHeader() {
     userData: useSelector((state) => state.admin.adminData),
     userAuth: useSelector((state) => state.admin.isAdminAuth),
   };
+
+  let isDark = localStorage.getItem("isDark") === "true";
+  document.querySelector("html").setAttribute("data-theme", isDark ? "dark" : "light");
+
+  useEffect(() => {
+      let userData = localStorage.getItem("userData");
+      const token = Cookies.get("token");
+      if (token) {
+        if (userData) {
+          userData = JSON.parse(userData);
+          dispatch(saveAdminData(userData));
+        }
+      } else {
+        localStorage.removeItem("userData");
+        dispatch(clearAdminData());
+      }
+    }, [dispatch]);
 
   const handleHomeClick = () => {
     setIsLogin(false);

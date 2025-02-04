@@ -7,7 +7,7 @@ function AdminLayout() {
     <>
         <AdminHeader />
         <Outlet />
-        <Footer />
+        <Footer isAdmin = {true}/>
     </>
   )
 }

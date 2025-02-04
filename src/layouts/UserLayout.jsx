@@ -8,7 +8,7 @@ function UserLayout() {
     <>
         <Header />
         <Outlet />
-        <Footer />
+        <Footer isAdmin = {false}/>
     </>
   )
 }

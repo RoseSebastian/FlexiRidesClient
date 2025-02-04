@@ -31,7 +31,11 @@
   left: 50px;
   color: white;
   z-index: 1;
-  div{
+  h3{
+    color: white;
+    margin-bottom: 45px;
+  }
+  h4{
     color: white;
   }
 }
@@ -155,4 +159,5 @@ hr {
     border: 0.1px solid var(--shadow);
     cursor: pointer;
     text-align: center;
-  }
+  }  
+  

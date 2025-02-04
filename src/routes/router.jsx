@@ -10,6 +10,11 @@ import Cars from "../pages/admin/Cars";
 import Users from "../pages/admin/Users";
 import Profile from "../pages/shared/Profile";
 import { ProtectedRoute } from "./ProtectedRoute";
+import CarList from "../pages/user/CarList";
+import CarDetails from "../pages/shared/CarDetails";
+import BookingList from "../pages/user/BookingList";
+import FavoriteList from "../pages/user/FavoriteList";
+import PasswordReset from "../pages/shared/PasswordReset";
 
 const router = createBrowserRouter([
   {
@@ -26,12 +31,32 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
+        path: "reset-password/:token",
+        element: <PasswordReset role="user"/>
+      },
+      {
         element: <ProtectedRoute />,
         children: [
           {
             path: "profile",
             element: <Profile role="user" />,
           },
+          {
+            path: "cars",
+            element: <CarList />
+          },
+          {
+            path: "cars/:id",
+            element: <CarDetails role = "user"/>
+          },
+          {
+            path: "bookings",
+            element: <BookingList />
+          },
+          {
+            path: "wishlist",
+            element: <FavoriteList />
+          }
         ],
       },
     ],
@@ -44,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <LandingPage role="admin" />,
+      },
+      {
+        path: "reset-password/:token",
+        element: <PasswordReset role="admin"/>
       },
       {
         element: <ProtectedRouteAdmin />,
@@ -64,6 +93,10 @@ const router = createBrowserRouter([
             path: "cars",
             element: <Cars />,
           },
+          {
+            path: "cars/:id",
+            element: <CarDetails role = "admin"/>
+          }
         ],
       },
     ],

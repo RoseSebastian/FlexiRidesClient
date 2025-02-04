@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/shared/Header.css";
 import Login from "../shared/Login";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Image from "react-bootstrap/Image";
 import profileIcon from "../../assets/profile-icon.png";
 import Dropdown from "react-bootstrap/Dropdown";
-import ThemeToggle from "../../components/shared/ThemeToggle"
+import ThemeToggle from "../../components/shared/ThemeToggle";
 import { axiosInstance } from "../../config/axiosInstance";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { clearUserData } from "../../redux/feature/userSlice";
+import { clearUserData, saveUserData } from "../../redux/feature/userSlice";
+import Cookies from "js-cookie";
 
 export function Header() {
   const [isLogin, setIsLogin] = useState(false);
@@ -20,6 +20,21 @@ export function Header() {
     userData: useSelector((state) => state.user.userData),
     userAuth: useSelector((state) => state.user.isUserAuth),
   };
+  let isDark = localStorage.getItem("isDark") === "true";
+  document.querySelector("html").setAttribute("data-theme", isDark ? "dark" : "light");
+  useEffect(() => {
+    let userData = localStorage.getItem("userData");
+    const token = Cookies.get("token");
+    if (token) {
+      if (userData) {
+        userData = JSON.parse(userData);
+        dispatch(saveUserData(userData));
+      }
+    } else {
+      localStorage.removeItem("userData");
+      dispatch(clearUserData());
+    }
+  }, [dispatch]);
 
   const handleSignupClick = () => {
     setIsLogin(false);
@@ -32,25 +47,24 @@ export function Header() {
   };
 
   const handleProfileClick = () => {
-    navigate("/profile")
-  }
+    navigate("/profile");
+  };
 
   const handleLogout = async () => {
     try {
       const response = await axiosInstance({
         method: "GET",
-        url: "/user/logout"
+        url: "/user/logout",
       });
-      localStorage.removeItem("userData")
+      localStorage.removeItem("userData");
       dispatch(clearUserData());
-      console.log(response)
       toast.success(`${response.data.message}`);
       navigate("/");
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error(error.response.data.message);
     }
-  }
+  };
 
   return (
     <>
@@ -60,6 +74,7 @@ export function Header() {
         </div>
         {user.userAuth ? (
           <div className="userLinks">
+            <Link to="/cars">Cars</Link>
             <Link to="/bookings">My Bookings</Link>
             <Link to="/wishlist">Favorites</Link>
             <Dropdown>
@@ -72,7 +87,9 @@ export function Header() {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <ThemeToggle />
-                <Dropdown.Item onClick={handleProfileClick}>Profile</Dropdown.Item>
+                <Dropdown.Item onClick={handleProfileClick}>
+                  Profile
+                </Dropdown.Item>
                 <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

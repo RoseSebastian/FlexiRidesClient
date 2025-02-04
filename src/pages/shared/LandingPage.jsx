@@ -8,13 +8,11 @@ import "../../styles/shared/landingPage.css";
 import Cookies from "js-cookie";
 import Carousel from "react-bootstrap/Carousel";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { saveUserData, clearUserData } from "../../redux/feature/userSlice";
 import { clearAdminData, saveAdminData } from "../../redux/feature/adminSlice";
-import { UserRoundCog } from "lucide-react";
-import { CarTaxiFront } from "lucide-react";
-import { BookUser } from "lucide-react";
+import { UserRoundCog, CarTaxiFront, BookUser } from "lucide-react";
+import CarSelector from "../../components/user/CarSelector";
 
 const LandingPage = ({ role = "user" }) => {
   const dispatch = useDispatch();
@@ -74,10 +72,11 @@ const LandingPage = ({ role = "user" }) => {
 
         {user.userAuth ? (
           <div className="landingpageSearch">
-            <h2>Welcome {user.userData?.username} !</h2>
+            <h1>Welcome {user.userData?.username} !</h1>
             {user.role === "user" ? (
               <div>
-                <h4>Start your journey here</h4>
+                <h3>Start your journey here</h3>
+                <CarSelector className="carSearch"/>
               </div>
             ) : (
               <div>

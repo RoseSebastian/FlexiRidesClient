@@ -12,7 +12,7 @@ export const useFetch = (url) => {
                 url: url,
             });
             setTimeout(() => {
-                setData(response?.data?.data);
+                setData(response?.data);
                 setIsLoading(false);
             }, 1000);
         } catch (error) {

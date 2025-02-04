@@ -6,6 +6,7 @@ import { axiosInstance } from "../../config/axiosInstance";
 import { useDispatch } from "react-redux";
 import { saveUserData } from "../../redux/feature/userSlice";
 import { saveAdminData } from "../../redux/feature/adminSlice";
+import { saveLoadingState } from "../../redux/feature/appSlice";
 
 const Login = ({ setIsLogin, role = "user" }) => {
   const [loginData, setLoginData] = useState({
@@ -14,6 +15,9 @@ const Login = ({ setIsLogin, role = "user" }) => {
   });
   const [isFormValid, setIsFormValid] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
+  const [emailLink, setEmail] = useState({
+    email: "",
+  });
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -21,12 +25,16 @@ const Login = ({ setIsLogin, role = "user" }) => {
     role: "user",
     login_api: "/user/login",
     signup_url: "/signup",
+    dashboard_url: "/",
+    forgot_password_api: "/user/forgotPassword",
   };
 
   if (role === "admin") {
     user.role = "admin";
     user.login_api = "/admin/login";
     user.signup_url = "/admin/signup";
+    user.dashboard_url = "/admin";
+    user.forgot_password_api = "/admin/forgotPassword";
   }
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,6 +56,8 @@ const Login = ({ setIsLogin, role = "user" }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    dispatch(saveLoadingState(true));
+
     try {
       const response = await axiosInstance({
         method: "PUT",
@@ -56,16 +66,39 @@ const Login = ({ setIsLogin, role = "user" }) => {
       });
       const loggedInUser = response.data.data;
       localStorage.setItem("userData", JSON.stringify(loggedInUser));
-      user.role === "user" ? dispatch(saveUserData(loggedInUser)) : dispatch(saveAdminData(loggedInUser));
+      user.role === "user"
+        ? dispatch(saveUserData(loggedInUser))
+        : dispatch(saveAdminData(loggedInUser));
+      dispatch(saveLoadingState(false));
       toast.success(`${response.data.message}`);
       setIsLogin(false);
+      navigate(user.dashboard_url);
     } catch (error) {
+      dispatch(saveLoadingState(false));
       toast.error(error.response.data.message);
     }
   };
-  const handleForgotPassword = (e) => {
-    setForgotPassword(false);
-    setIsLogin(false);
+
+  const emailChanged = (e) => {
+    setEmail({ email: e.target.value });
+  };
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    dispatch(saveLoadingState(true));
+    try {
+      const response = await axiosInstance({
+        method: "PUT",
+        url: user.forgot_password_api,
+        data: emailLink,
+      });
+      dispatch(saveLoadingState(false));
+      toast.success(`${response.data.message}`);
+      setForgotPassword(false);
+      setIsLogin(false);
+    } catch (error) {
+      dispatch(saveLoadingState(false));
+      toast.error(error.response.data.message);
+    }
   };
   return (
     <div className="login-popup">
@@ -126,9 +159,16 @@ const Login = ({ setIsLogin, role = "user" }) => {
             will be sent to you with instructions about how to complete the
             process.
           </p>
-          <input type="email" placeholder="Enter your email" />
+          <input
+            required
+            type="email"
+            placeholder="Enter your email"
+            value={emailLink.email}
+            onChange={emailChanged}
+          />
+
           <button className="primary restButton" onClick={handleForgotPassword}>
-            Reset Password
+            Sent Link
           </button>
         </div>
       )}

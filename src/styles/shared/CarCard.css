@@ -1,0 +1,39 @@
+.cardContainer {
+  cursor: pointer;
+  background: var(--footer-background-color);
+  h4 {
+    color: var(--secondary-color);
+  }
+}
+
+.carImg {
+  height: 150px;
+  object-fit: cover;
+}
+
+.card-title {
+  text-decoration: none;
+}
+.carDetails {
+  display: flex;
+  justify-content: space-between;
+}
+.price {
+  color: var(--primary-color);
+}
+.carSpecials {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed var(--icon-background-color);
+    margin-top: 16px;
+    padding-top: 16px;
+}
+.carFeature{
+    span{
+        color: var(--primary-color);
+    }   
+}
+.favorited{
+    fill: red;
+}

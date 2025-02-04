@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 
 export const ProtectedRouteAdmin = () => {
-  const isAdminAuth = useSelector((state) => state.admin.isAdminAuth);
+  const isAdminAuth = useSelector((state) => state.admin);
   const navigate = useNavigate();
 
   useEffect(() => {
