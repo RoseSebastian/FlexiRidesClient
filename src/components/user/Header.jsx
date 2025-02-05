@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../styles/shared/Header.css";
 import Login from "../shared/Login";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,8 +9,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import ThemeToggle from "../../components/shared/ThemeToggle";
 import { axiosInstance } from "../../config/axiosInstance";
 import toast from "react-hot-toast";
-import { clearUserData, saveUserData } from "../../redux/feature/userSlice";
-import Cookies from "js-cookie";
+import { clearUserData } from "../../redux/feature/userSlice";
 
 export function Header() {
   const [isLogin, setIsLogin] = useState(false);
@@ -19,22 +18,7 @@ export function Header() {
   const user = {
     userData: useSelector((state) => state.user.userData),
     userAuth: useSelector((state) => state.user.isUserAuth),
-  };
-  let isDark = localStorage.getItem("isDark") === "true";
-  document.querySelector("html").setAttribute("data-theme", isDark ? "dark" : "light");
-  useEffect(() => {
-    let userData = localStorage.getItem("userData");
-    const token = Cookies.get("token");
-    if (token) {
-      if (userData) {
-        userData = JSON.parse(userData);
-        dispatch(saveUserData(userData));
-      }
-    } else {
-      localStorage.removeItem("userData");
-      dispatch(clearUserData());
-    }
-  }, [dispatch]);
+  };  
 
   const handleSignupClick = () => {
     setIsLogin(false);

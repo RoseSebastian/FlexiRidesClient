@@ -1,57 +1,27 @@
-import React, { useEffect } from "react";
+import React from "react";
 import imgBackground from "../../assets/flexi_background.jpg";
 import suv from "../../assets/suv.png";
 import sedan from "../../assets/sedan.png";
 import hatchback from "../../assets/hatchback.png";
 import electric from "../../assets/electric.png";
 import "../../styles/shared/landingPage.css";
-import Cookies from "js-cookie";
 import Carousel from "react-bootstrap/Carousel";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { saveUserData, clearUserData } from "../../redux/feature/userSlice";
-import { clearAdminData, saveAdminData } from "../../redux/feature/adminSlice";
+import { useDispatch } from "react-redux";
 import { UserRoundCog, CarTaxiFront, BookUser } from "lucide-react";
 import CarSelector from "../../components/user/CarSelector";
 
 const LandingPage = ({ role = "user" }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const user = {
     role: "user",
     signup_url: "/signup",
-    userData: useSelector((state) => state.user.userData),
-    userAuth: useSelector((state) => state.user.isUserAuth),
   };
   if (role === "admin") {
     user.role = "admin";
     user.signup_url = "/admin/signup";
-    user.userData = useSelector((state) => state.admin.adminData);
-    user.userAuth = useSelector((state) => state.admin.isAdminAuth);
   }
-
-  let isDark = localStorage.getItem("isDark") === "true";
-  document.querySelector("html").setAttribute("data-theme", isDark ? "dark" : "light");
-  
-  useEffect(() => {
-    let userData = localStorage.getItem("userData");  
-    const token = Cookies.get("token");
-    if (token) {
-      if (userData) {
-        userData = JSON.parse(userData);
-        if (userData?.role === "user") {
-          dispatch(saveUserData(userData));
-        } else {
-          dispatch(saveAdminData(userData));
-        }
-      }
-    } else {
-      localStorage.removeItem("userData");
-      dispatch(clearUserData());
-      dispatch(clearAdminData());
-    }    
-  }, [dispatch]);
   
   const handleSignupClick = () => {
     navigate("/signup");

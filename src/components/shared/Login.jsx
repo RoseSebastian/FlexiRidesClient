@@ -65,7 +65,7 @@ const Login = ({ setIsLogin, role = "user" }) => {
         data: loginData,
       });
       const loggedInUser = response.data.data;
-      localStorage.setItem("userData", JSON.stringify(loggedInUser));
+      // localStorage.setItem("userData", JSON.stringify(loggedInUser));
       user.role === "user"
         ? dispatch(saveUserData(loggedInUser))
         : dispatch(saveAdminData(loggedInUser));

@@ -2,24 +2,28 @@ import React, { useEffect, useState } from "react";
 import { Pencil, KeyRound } from "lucide-react";
 import profileIcon from "../../assets/profile-icon.png";
 import Image from "react-bootstrap/Image";
-import { useDispatch } from "react-redux";
 import { saveAdminData } from "../../redux/feature/adminSlice";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../../config/axiosInstance";
 import { saveUserData } from "../../redux/feature/userSlice";
 import { saveLoadingState } from "../../redux/feature/appSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const Profile = ({ role = "user" }) => {
   const user = {
     role: "user",
     update_api: "/user/update",
     changePassword_api: "/user/changePassword",
+    userData: useSelector((state) => state.user.userData),
+    userAuth: useSelector((state) => state.user.isUserAuth),
   };
 
   if (role === "admin") {
     user.role = "admin";
     user.update_api = "/admin/update";
-    user.changePassword_api = "/admin/changePassword"
+    user.changePassword_api = "/admin/changePassword";
+    user.userData = useSelector((state) => state.admin.adminData);
+    user.userAuth = useSelector((state) => state.admin.isAdminAuth);
   }
   const dispatch = useDispatch();
   const [isFormValid, setIsFormValid] = useState(false);
@@ -35,17 +39,15 @@ const Profile = ({ role = "user" }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isPasswordChanging, setIsPasswordChanging] = useState(false);
 
-  let userData = localStorage.getItem("userData");
-  if (userData) {
-    userData = JSON.parse(userData);
-  }
+  const userData = user.userData;
+  
   useEffect(() => {
     setFormData({
       phone: userData.phone || "",
       address: userData.address || "",
       profilePic: userData.profilePic || null,
     });
-  }, []);
+  }, [userData]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -91,10 +93,7 @@ const Profile = ({ role = "user" }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      const loggedInUser = response.data;
-      console.log("user", response);
-      localStorage.removeItem("userData");
-      localStorage.setItem("userData", JSON.stringify(loggedInUser));
+      const loggedInUser = response.data;      
       user.role === "user"
         ? dispatch(saveUserData(loggedInUser))
         : dispatch(saveAdminData(loggedInUser));
