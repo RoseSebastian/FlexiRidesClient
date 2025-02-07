@@ -40,12 +40,11 @@ export function Header() {
         method: "GET",
         url: "/user/logout",
       });
-      localStorage.removeItem("userData");
+      
       dispatch(clearUserData());
       toast.success(`${response.data.message}`);
       navigate("/");
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     }
   };

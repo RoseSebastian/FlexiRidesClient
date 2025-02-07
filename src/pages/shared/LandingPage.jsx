@@ -7,9 +7,9 @@ import electric from "../../assets/electric.png";
 import "../../styles/shared/landingPage.css";
 import Carousel from "react-bootstrap/Carousel";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { UserRoundCog, CarTaxiFront, BookUser } from "lucide-react";
 import CarSelector from "../../components/user/CarSelector";
+import { useSelector } from "react-redux";
 
 const LandingPage = ({ role = "user" }) => {
   const navigate = useNavigate();
@@ -17,10 +17,14 @@ const LandingPage = ({ role = "user" }) => {
   const user = {
     role: "user",
     signup_url: "/signup",
+    userData: useSelector((state) => state.user.userData),
+    userAuth: useSelector((state) => state.user.isUserAuth),
   };
   if (role === "admin") {
     user.role = "admin";
     user.signup_url = "/admin/signup";
+    user.userData = useSelector((state) => state.admin.adminData);
+    user.userAuth = useSelector((state) => state.admin.isAdminAuth);
   }
   
   const handleSignupClick = () => {

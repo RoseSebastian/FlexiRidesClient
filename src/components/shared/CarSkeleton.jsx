@@ -1,11 +1,12 @@
 import Card from 'react-bootstrap/Card';
 import Placeholder from 'react-bootstrap/Placeholder';
+import carImg from "../../assets/carImg.jpg";
 
 const CarSkeleton = (props) => {
   return (
     <>
       <Card style={{ width: "18rem" }}>
-        <Card.Img variant="top" src="" />
+        <Card.Img variant="top" src={carImg} />
         <Card.Body>
           <Placeholder as={Card.Title} animation="glow">
             <Placeholder xs={6} />

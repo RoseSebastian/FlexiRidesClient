@@ -21,23 +21,6 @@ export function AdminHeader() {
     userAuth: useSelector((state) => state.admin.isAdminAuth),
   };
 
-  let isDark = localStorage.getItem("isDark") === "true";
-  document.querySelector("html").setAttribute("data-theme", isDark ? "dark" : "light");
-
-  useEffect(() => {
-      let userData = localStorage.getItem("userData");
-      const token = Cookies.get("token");
-      if (token) {
-        if (userData) {
-          userData = JSON.parse(userData);
-          dispatch(saveAdminData(userData));
-        }
-      } else {
-        localStorage.removeItem("userData");
-        dispatch(clearAdminData());
-      }
-    }, [dispatch]);
-
   const handleHomeClick = () => {
     setIsLogin(false);
     navigate("/admin");
@@ -53,7 +36,7 @@ export function AdminHeader() {
         method: "GET",
         url: "/admin/logout",
       });
-      localStorage.removeItem("userData");
+      
       dispatch(clearAdminData());
       toast.success(`${response.data.message}`);
       navigate("/admin");

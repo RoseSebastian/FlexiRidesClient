@@ -15,6 +15,7 @@ import CarDetails from "../pages/shared/CarDetails";
 import BookingList from "../pages/user/BookingList";
 import FavoriteList from "../pages/user/FavoriteList";
 import PasswordReset from "../pages/shared/PasswordReset";
+import Checkout from "../pages/user/Checkout";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
           {
             path: "wishlist",
             element: <FavoriteList />
+          },
+          {
+            path: "checkout",
+            element: <Checkout />
           }
         ],
       },

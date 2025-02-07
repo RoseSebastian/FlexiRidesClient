@@ -5,6 +5,13 @@
     color: var(--secondary-color);
   }
 }
+.cardDeactive{
+  cursor: pointer;
+  background: var(--icon-background-color);
+  h4 {
+    color: var(--secondary-color);
+  }
+}
 
 .carImg {
   height: 150px;

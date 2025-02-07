@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation  } from "react-router-dom";
 import { Header } from "../components/user/Header";
 import Footer from "../components/shared/Footer";
 import { saveUserData } from "../redux/feature/userSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {axiosInstance} from "../config/axiosInstance";
 
 function UserLayout() {
-  const { isUserAuth, userData } = useSelector((state) => state.user);
+ 
   const dispatch = useDispatch();
-
-  console.log("isUserAuth====", isUserAuth);
+  const location = useLocation();
 
   const checkUser = async () => {
     try {
@@ -30,7 +29,7 @@ function UserLayout() {
     document
       .querySelector("html")
       .setAttribute("data-theme", isDark ? "dark" : "light");
-  }, []);
+  }, [location.pathname]);
 
   return (
     <>
