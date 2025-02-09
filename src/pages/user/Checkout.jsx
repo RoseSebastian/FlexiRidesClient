@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "../../config/axiosInstance";
 import toast from "react-hot-toast";
 import PriceInfo from "../../components/user/priceInfo";
-import "../../styles/user/checkout.css";
+import "../../styles/user/Checkout.css";
 
 const Checkout = (props) => {
   const { carId, isFavorite } = useParams();
