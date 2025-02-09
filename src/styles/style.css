@@ -60,6 +60,7 @@ label {
 .primaryText{
   font-size: 20px;
   color: var(--primary-color);
+  font-weight: bold;
 }
 
 .secondaryText{

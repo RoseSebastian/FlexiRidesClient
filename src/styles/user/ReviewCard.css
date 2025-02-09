@@ -1,0 +1,14 @@
+.reviewCard{
+    background: var(--footer-background-color);
+    width: 250px;
+}
+.reviewHeader{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+.ratingContainer{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}

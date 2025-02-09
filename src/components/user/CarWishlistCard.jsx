@@ -36,11 +36,11 @@ const CarWishlistCard = (props) => {
   };
 
   const checkoutCar = () => {
-    navigate('/checkout');
+    navigate(`/checkout/${car._id}/${true}`);
   };
 
   return (
-    <Card>
+    <Card className="wishlist">
       <Card.Body>
         <div className="wishListContainer">
           <div className="carDetails">
@@ -57,9 +57,9 @@ const CarWishlistCard = (props) => {
           </div>
           <div className="wishlistDetails">
             <h4 className="primaryText">
-              Total: Rs: {car.price * noOfDays}/-
+              Total: Rs: {car.price * noOfDays}
             </h4>
-            <button className="primary" onClick={() => checkoutCar(car.id)}>
+            <button className="primary" onClick={() => checkoutCar()}>
               Checkout
             </button>
             <button className="cancel" onClick={() => removeCar(car.id)}>

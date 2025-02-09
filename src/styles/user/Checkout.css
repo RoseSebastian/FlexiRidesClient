@@ -1,0 +1,22 @@
+.checkout{
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.checkoutContainer{
+    display: flex;    
+    gap: 10px;    
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.checkoutItems{
+    margin: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pay{
+    width: 300px;
+}

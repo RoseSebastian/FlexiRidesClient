@@ -1,3 +1,6 @@
+.wishlist{
+    background: var(--footer-background-color);
+}
 .wishListContainer{
     display: flex;
     justify-content: space-between;

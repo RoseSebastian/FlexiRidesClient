@@ -1,0 +1,54 @@
+.carContainer{
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.car-details{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    gap: 20px;
+}
+.car-img{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+.features{
+    margin-top: 20px;
+}
+.featureList{
+    border: 1px solid var(--icon-background-color);
+    border-radius: 5px;
+    padding: 10px;
+}
+.carOperations{
+    width: 30%;    
+}
+.carPriceDetails{
+    border: 1px solid var(--icon-background-color);
+    padding: 20px;
+    border-radius: 5px;
+}
+.ratingValue{
+    font-size: 40px;
+    font-weight: bold;
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.carousel{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+.carousel-indicators{
+    display: none;
+}
+.carousel-inner {
+    width: 90%;
+}
+.carousel-control-next, .carousel-control-prev {
+    width: 0%;
+}

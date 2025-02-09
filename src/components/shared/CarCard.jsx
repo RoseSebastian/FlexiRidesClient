@@ -27,9 +27,7 @@ const CarCard = (props) => {
         method: "GET",
         url: `/wishlist/status/${car._id}`,
       });
-      setFavorite(response.data);      
-      // setStartDate(useSelector((state) => new Date(state.date.Dates.startDate)));
-      // setEndDate(useSelector((state) => new Date(state.date.Dates.endDate)))
+      setFavorite(response.data); 
     } catch (error) {
       setFavorite(false);
     }
@@ -102,24 +100,24 @@ const CarCard = (props) => {
 
   return (
     <Card
-      className={car.isActive ? "cardContainer" : "cardDeactive"}
+      className={car?.isActive ? "cardContainer" : "cardDeactive"}
       onClick={handleCarView}
     >
       <Card.Img
         className="carImg"
         variant="top"
-        src={car.image ? car.image : carImg}
+        src={car?.image ? car.image : carImg}
       />
       <Card.Body>
-        <h4>{car.model}</h4>
+        <h4>{car?.model}</h4>
         <div className="carDetails">
-          <span>{car.licensePlate}</span>
-          <div className="price">Rs.{car.price}/Day</div>
+          <span>{car?.licensePlate}</span>
+          <div className="price">Rs.{car?.price}/Day</div>
         </div>
         <div className="carSpecials">
           <div className="carFeature">
-            <span>{car.transmission}</span> |<span> {car.fuelType}</span> |
-            <span> {car.seats} Seater</span>
+            <span>{car?.transmission}</span> |<span> {car?.fuelType}</span> |
+            <span> {car?.seats} Seater</span>
           </div>
           {!isAdmin ? (
             <button onClick={handleFavorites}>
@@ -127,7 +125,7 @@ const CarCard = (props) => {
             </button>
           ) : (
             <button onClick={handleDeactivate}>
-              {car.isActive ? <Trash2 /> : <CirclePlus />}
+              {car?.isActive ? <Trash2 /> : <CirclePlus />}
             </button>
           )}
         </div>

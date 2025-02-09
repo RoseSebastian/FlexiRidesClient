@@ -59,7 +59,7 @@ const router = createBrowserRouter([
             element: <FavoriteList />
           },
           {
-            path: "checkout",
+            path: "checkout/:carId/:isFavorite",
             element: <Checkout />
           }
         ],

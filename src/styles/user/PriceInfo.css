@@ -1,0 +1,9 @@
+.priceDetails{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.priceItem{
+    display: flex;
+    gap: 30px;
+}
