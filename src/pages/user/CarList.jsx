@@ -1,5 +1,5 @@
 import CarSelector from "../../components/user/CarSelector";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import "../../styles/user/CarListing.css";
 import CarCard from "../../components/shared/CarCard";
 import { Col, Row } from "react-bootstrap";

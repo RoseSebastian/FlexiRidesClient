@@ -178,3 +178,10 @@ textarea {
 .form-check-input{
   background: var(--icon-background-color);
 }
+
+.table{
+  color: var(--secondary-color);
+  background-color: var(--background-color);
+  --bs-table-color: var(--secondary-color);
+  --bs-table-bg: var(--background-color);
+}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "../../config/axiosInstance";
 import toast from "react-hot-toast";
@@ -19,6 +19,7 @@ const Checkout = (props) => {
   let tempNoOfDays = useSelector((state) => state.date.noOfDays);
 
   const userData = useSelector((state) => state.user.userData);
+  const navigate = useNavigate();
 
   const fetchCar = async () => {
     try {
@@ -82,6 +83,10 @@ const Checkout = (props) => {
     }
   }, [isFavorite]);
 
+  const handlePayment = () => {
+    navigate("/confirmation")
+  }
+
   return (
     <div className="appContainer">
       <div className="primaryText">Confirm your booking</div>
@@ -134,7 +139,7 @@ const Checkout = (props) => {
             </div>
           </div>
 
-          <button className="primary pay">Pay Now</button>
+          <button className="primary pay" onClick={handlePayment}>Pay Now</button>
         </div>
       </div>
     </div>

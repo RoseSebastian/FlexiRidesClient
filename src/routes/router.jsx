@@ -16,6 +16,7 @@ import BookingList from "../pages/user/BookingList";
 import FavoriteList from "../pages/user/FavoriteList";
 import PasswordReset from "../pages/shared/PasswordReset";
 import Checkout from "../pages/user/Checkout";
+import BookingConfirmation from "../pages/user/BookingConfirmation";
 
 const router = createBrowserRouter([
   {
@@ -49,11 +50,7 @@ const router = createBrowserRouter([
           {
             path: "cars/:id",
             element: <CarDetails role = "user"/>
-          },
-          {
-            path: "bookings",
-            element: <BookingList />
-          },
+          },          
           {
             path: "wishlist",
             element: <FavoriteList />
@@ -61,6 +58,10 @@ const router = createBrowserRouter([
           {
             path: "checkout/:carId/:isFavorite",
             element: <Checkout />
+          },
+          {
+            path: "confirmation",
+            element: <BookingConfirmation />
           }
         ],
       },

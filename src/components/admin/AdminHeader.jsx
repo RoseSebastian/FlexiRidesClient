@@ -53,13 +53,10 @@ export function AdminHeader() {
         </div>
         {user.userAuth ? (
           <div className="userLinks">
-            {user.userData?.role === "admin" ? (
+            {user.userData?.role === "admin" && (
               <>
-                <Link to="/admin/bookings">Bookings</Link>
                 <Link to="/admin/users">Users</Link>
               </>
-            ) : (
-              <></>
             )}
             <Link to="/admin/cars">Cars</Link>
 

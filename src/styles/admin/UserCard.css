@@ -1,0 +1,20 @@
+.userContainer{
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.userDetails{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.userActions{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.userRole{
+    text-transform: uppercase;
+    color: var(--primary-color);
+    font-weight: bold;
+}
