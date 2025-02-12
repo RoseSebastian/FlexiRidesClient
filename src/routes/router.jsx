@@ -62,7 +62,11 @@ const router = createBrowserRouter([
           {
             path: "confirmation",
             element: <BookingConfirmation />
-          }
+          },
+          {
+            path: "bookings",
+            element: <Bookings />,
+          },
         ],
       },
     ],
@@ -86,11 +90,7 @@ const router = createBrowserRouter([
           {
             path: "profile",
             element: <Profile role="admin" />,
-          },
-          {
-            path: "bookings",
-            element: <Bookings />,
-          },
+          },          
           {
             path: "users",
             element: <Users />,
