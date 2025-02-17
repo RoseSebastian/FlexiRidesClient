@@ -27,6 +27,8 @@ const CarDetails = ({ role = "user" }) => {
   );
   const endDate = useSelector((state) => new Date(state.date.Dates.endDate));
   const noOfDays = useSelector((state) => state.date.noOfDays);
+
+  const [isEditing, setEditing] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = {
@@ -206,7 +208,7 @@ const CarDetails = ({ role = "user" }) => {
                 ) : (
                   <div className="mt-2">
                     <div className="d-flex align-items-center">
-                      <div className="ratingValue">{avgReview}</div>
+                      <div className="ratingValue">{Number(avgReview).toFixed(1)}</div>
                       <Rating
                         emptySymbol={<Star color="#FEDB2C" />}
                         fullSymbol={<Star color="#FEDB2C" fill="#FEDB2C" />}
@@ -230,11 +232,9 @@ const CarDetails = ({ role = "user" }) => {
               </div>
             </div>
           </div>
-          <div className="carOperations">
-            <div className="carPriceDetails">
-              {user.role === "user" && (
-                <PriceInfo car={car} noOfDays={noOfDays} />
-              )}
+          {user.role === "user" && (<div className="carOperations">
+            <div className="carPriceDetails">              
+                <PriceInfo car={car} noOfDays={noOfDays} />              
               <div className="d-flex justify-content-center">
                 <button
                   className="primary mt-3"
@@ -244,7 +244,13 @@ const CarDetails = ({ role = "user" }) => {
                 </button>
               </div>
             </div>
-          </div>
+          </div>)}
+          {user.role !== "user" && (
+             <div className="carPriceDetails">
+              <button className="secondary">Edit</button>
+              
+             </div>
+          )}
         </div>
       </div>
     </>

@@ -1,4 +1,3 @@
-import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axiosInstance";
 import BookingCard from "../../components/shared/BookingCard";

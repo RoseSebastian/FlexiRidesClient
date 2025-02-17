@@ -171,7 +171,7 @@ const LandingPage = ({ role = "user" }) => {
         <section className="landingpageContent">
           {user.userAuth ? (
             <div className="adminActions">
-              <div className="actionContainer">
+              <div className="actionContainer" onClick={() => navigate("/admin/add/car")}>
                 <h2>Add Car</h2>
                 <CarTaxiFront size={48} />
               </div>

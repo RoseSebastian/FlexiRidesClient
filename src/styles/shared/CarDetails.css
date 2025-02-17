@@ -39,16 +39,21 @@
 }
 
 .carousel{
-    margin-top: 20px;
+    margin: 20px 0;
     display: flex;
     justify-content: center;
+    width: 300px;
 }
 .carousel-indicators{
-    display: none;
+    bottom: -40px;
 }
 .carousel-inner {
-    width: 90%;
+    width: auto;
 }
+/* .carousel-item{
+    display: block;
+    margin-right: auto;
+} */
 .carousel-control-next, .carousel-control-prev {
     width: 0%;
 }

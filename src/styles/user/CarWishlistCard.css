@@ -1,5 +1,7 @@
 .wishlist{
     background: var(--footer-background-color);
+    cursor: pointer;
+    margin: 10px 0;
 }
 .wishListContainer{
     display: flex;

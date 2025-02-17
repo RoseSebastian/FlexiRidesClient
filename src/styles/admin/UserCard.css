@@ -1,12 +1,18 @@
+.userCard{
+    background: var(--background-color);
+    border: 0.25px solid var(--icon-background-color);
+}
 .userContainer{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 20px;
 }
 .userDetails{
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 80%;
 }
 .userActions{
     display: flex;

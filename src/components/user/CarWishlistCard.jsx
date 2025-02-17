@@ -1,70 +1,78 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../../styles/user/CarWishlistCard.css";
 import { axiosInstance } from "../../config/axiosInstance";
 import { saveLoadingState } from "../../redux/feature/appSlice";
+import moment from "moment";
 
-const CarWishlistCard = (props) => {  
+const CarWishlistCard = (props) => {
   const wishlist = props.car;
   const car = props.car?.carId;
   let startDate = new Date(wishlist?.startDate) || new Date();
   let endDate = new Date(wishlist?.endDate) || new Date();
-  startDate =  `${startDate.getDate()}/${startDate.getMonth() + 1}/${startDate.getFullYear()}`; 
-  endDate =  `${endDate.getDate()}/${endDate.getMonth() + 1}/${endDate.getFullYear()}`;  
   const noOfDays = wishlist?.noOfDays;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const removeCar = async () => {
+  const removeCar = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     dispatch(saveLoadingState(true));
     try {
-        await axiosInstance({
-          method: "DELETE",
-          url: `/wishlist/${car._id}`
-        });
-        props.setCars(props.carList.filter((item) => item.carId._id !== car._id))
-        dispatch(saveLoadingState(false));
-        toast.success("Car removed from favorites");
-      } catch (error) {
-        setFavorite(true);
-        dispatch(saveLoadingState(false));
-        toast.error(error.response.data.message);
-      }
+      await axiosInstance({
+        method: "DELETE",
+        url: `/wishlist/${car._id}`,
+      });
+      props.setCars(props.carList.filter((item) => item.carId._id !== car._id));
+      dispatch(saveLoadingState(false));
+      toast.success("Car removed from favorites");
+    } catch (error) {
+      setFavorite(true);
+      dispatch(saveLoadingState(false));
+      toast.error(error.response.data.message);
+    }
   };
 
-  const checkoutCar = () => {
+  const checkoutCar = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     navigate(`/checkout/${car._id}/${true}`);
   };
 
+  const handleCarDeatils = () => {
+    navigate(`/cars/${car._id}`)
+  }
+
   return (
-    <Card className="wishlist">
+    <Card className="wishlist" onClick={handleCarDeatils}>
       <Card.Body>
         <div className="wishListContainer">
           <div className="carDetails">
             <h4 className="primaryText">{car.model}</h4>
-            <h6 className="mb-2">
-              {car.licensePlate}
-            </h6>
+            <h6 className="mb-2">{car.licensePlate}</h6>
             <span className="mb-2">
-              {startDate} - {endDate}
+              {moment(startDate).format("DD/MM/YYYY")} -{" "}
+              {moment(endDate).format("DD/MM/YYYY")}
             </span>
-            <h6 className="secondaryText">
-              Rs:{car.price}/Day
-            </h6>
+            <h6 className="secondaryText">Rs:{car.price}/Day</h6>
           </div>
           <div className="wishlistDetails">
-            <h4 className="primaryText">
-              Total: Rs: {car.price * noOfDays}
-            </h4>
-            <button className="primary" onClick={() => checkoutCar()}>
-              Checkout
-            </button>
-            <button className="cancel" onClick={() => removeCar(car.id)}>
-              Remove
-            </button>
+            <h4 className="primaryText">Total: Rs: {car.price * noOfDays}</h4>
+            {moment(startDate).isSameOrBefore(new Date()) ? (
+              <>
+                <button className="primary" onClick={() => checkoutCar(e)}>
+                  Checkout
+                </button>
+                <button className="cancel" onClick={() => removeCar(e)}>
+                  Remove
+                </button>
+              </>
+            ):(
+              <div className="smallText">Please select another dates.</div>
+            )}
           </div>
         </div>
       </Card.Body>

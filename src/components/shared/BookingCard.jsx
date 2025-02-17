@@ -1,27 +1,92 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Rating from "react-rating";
-import { Dot, Heart, Cog, Star } from "lucide-react";
-import { useEffect, useState } from "react";
+import moment from "moment";
+import toast from "react-hot-toast";
+import { axiosInstance } from "../../config/axiosInstance";
+import { Star, Pencil } from "lucide-react";
 
 const BookingCard = (props) => {
   const car = props.booking.carId;
+  const [status, setStatus] = useState(props.booking?.status);
   let startDate = new Date(props.booking?.startDate) || new Date();
   let endDate = new Date(props.booking?.endDate) || new Date();
-  startDate = `${startDate.getDate()}/${
-    startDate.getMonth() + 1
-  }/${startDate.getFullYear()}`;
-  endDate = `${endDate.getDate()}/${
-    endDate.getMonth() + 1
-  }/${endDate.getFullYear()}`;
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [isReviewed, setIsReviewed] = useState(false);
+  const [review, setReview] = useState({
+    rating: 0,
+    comment: "",
+  });
 
   const handleChange = (rate) => {
-    setRating(rate);
+    if (!isReviewed)
+      setReview({
+        ...review,
+        rating: rate,
+      });
   };
-  const handleChangeComment = (value) => {
-    setComment(value);
+  const handleChangeComment = (e) => {
+    setReview({
+      ...review,
+      comment: e.target.value,
+    });
+  };
+
+  const updateBookingStatus = async () => {
+    try {
+      const response = await axiosInstance({
+        method: "PATCH",
+        url: `/bookings/${props.booking?._id}`,
+      });
+      setStatus("canceled");
+    } catch (error) {
+      toast(error.response.data.message);
+    }
+  };
+
+  const fetchReview = async () => {
+    try {
+      const response = await axiosInstance({
+        method: "GET",
+        url: `/reviews/booking/${props.booking?._id}`,
+      });
+      console.log(response.data?.data);
+      if (response.data?.data?.length > 0) {
+        setIsReviewed(true);
+        setReview({
+          rating: response.data?.data[0]?.rating,
+          comment: response.data?.data[0]?.comment,
+        });
+      } else {
+        setIsReviewed(false);
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    if (status === "confirmed") {
+      fetchReview();
+    }
+  }, [status]);
+
+  const submitReview = async () => {
+    try {
+      const response = await axiosInstance({
+        method: "POST",
+        url: `/reviews/addReview`,
+        data: {
+          carId: car?._id,
+          bookingId: props.booking?._id,
+          rating: review.rating,
+          comment: review.comment,
+        },
+      });
+      setIsReviewed(true);
+      toast(response.data.message);
+    } catch (error) {
+      toast(error.response.data.message);
+    }
   };
 
   return (
@@ -32,27 +97,60 @@ const BookingCard = (props) => {
             <h4 className="primaryText">{car?.model}</h4>
             <h6 className="mb-2">{car?.licensePlate}</h6>
             <span className="mb-2">
-              {startDate} - {endDate}
+              {moment(startDate).format("DD/MM/YYYY")} -{" "}
+              {moment(endDate).format("DD/MM/YYYY")}
             </span>
             <h6 className="secondaryText">Booking No: {props.booking?._id}</h6>
           </div>
           <div className="wishlistDetails align-items-start">
             <h4 className="primaryText">Total: {props.booking?.totalPrice}</h4>
             <div>
-              <div className="smallText mb-1">Rate your car!</div>
-              <Rating
-                emptySymbol={<Star color="#FEDB2C" />}
-                fullSymbol={<Star color="#FEDB2C" fill="#FEDB2C" />}
-                onChange={(rate) => handleChange(rate)}
-                initialRating={rating}
-              />
-              <textarea
-                className="mt-3"
-                value={comment}
-                placeholder="Reviews"
-                onChange={(value) => handleChangeComment(value)}
-              />
+              {(status === "failed" || status === "canceled") && (
+                <h4> {status} </h4>
+              )}
+              {status === "confirmed" &&
+                moment(startDate).isAfter(new Date()) && (
+                  <button className="cancel" onClick={updateBookingStatus}>
+                    Cancel
+                  </button>
+                )}
             </div>
+
+            {moment(endDate).isBefore(new Date()) && status === "confirmed" && (
+              <div>
+                <div className="d-flex">
+                <div className="smallText mb-1">Rate your car!</div>
+                {isReviewed && (
+                  <Pencil
+                    className="editIcon"
+                    fill="#008009"
+                    onClick={() => setIsReviewed(!isReviewed)}
+                  />
+                )}
+                </div>                
+                <Rating
+                  emptySymbol={<Star color="#FEDB2C" />}
+                  fullSymbol={<Star color="#FEDB2C" fill="#FEDB2C" />}
+                  onChange={(rate) => handleChange(rate)}
+                  initialRating={review.rating}
+                  readOnly={isReviewed}
+                />
+                <textarea
+                  className="mt-3"
+                  value={review.comment}
+                  placeholder="Reviews"
+                  onChange={handleChangeComment}
+                  readOnly={isReviewed}
+                />
+                <div>
+                  {!isReviewed && (
+                    <button className="secondary" onClick={submitReview}>
+                      Submit
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </Card.Body>

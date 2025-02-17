@@ -11,8 +11,6 @@ const CarSelector = ({isLandingPage = true}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-//   setStartDate(useSelector((state) => new Date(state.date.Dates.startDate)));
-//   setEndDate(useSelector((state) => new Date(state.date.Dates.endDate)));
 
   const handleChange = ([newStartDate, newEndDate]) => {
     setStartDate(newStartDate);

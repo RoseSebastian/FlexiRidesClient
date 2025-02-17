@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "../../config/axiosInstance";
 import toast from "react-hot-toast";
 import PriceInfo from "../../components/user/priceInfo";
 import "../../styles/user/Checkout.css";
+import { loadStripe } from "@stripe/stripe-js";
+import moment from 'moment';
 
 const Checkout = (props) => {
   const { carId, isFavorite } = useParams();
@@ -12,6 +14,8 @@ const Checkout = (props) => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [noOfDays, setNoOfDays] = useState();
+  const deposit = parseInt(`${import.meta.env.VITE_DEPOSIT}`);
+  const fee = parseInt(`${import.meta.env.VITE_PLATFORM_FEE}`);
   let tempStartDate = useSelector(
     (state) => new Date(state.date.Dates.startDate)
   );
@@ -41,27 +45,22 @@ const Checkout = (props) => {
           method: "GET",
           url: `/wishlist/status/${carId}`,
         });
-        let startDate = new Date(response.data.startDate);
-        let endDate = new Date(response.data.endDate);
-        setStartDate(
-          `${startDate.getDate()}/${
-            startDate.getMonth() + 1
-          }/${startDate.getFullYear()}`
-        );
-        setEndDate(
-          `${endDate.getDate()}/${
-            endDate.getMonth() + 1
-          }/${endDate.getFullYear()}`
-        );
+        setStartDate(new Date(response.data.startDate));
+        setEndDate(new Date(response.data.endDate));
         setNoOfDays(response.data.noOfDays);
       } catch (error) {}
     }
   };
 
+  const setBookingDates = () => {
+    setStartDate(tempStartDate);
+    setEndDate(tempEndDate);
+    setNoOfDays(tempNoOfDays);
+  };
+
   useEffect(() => {
     if (carId) {
       fetchCar();
-      whishlistCar();
     }
   }, [carId]);
 
@@ -69,23 +68,31 @@ const Checkout = (props) => {
     if (isFavorite === "true") {
       whishlistCar();
     } else {
-      setStartDate(
-        `${tempStartDate.getDate()}/${
-          tempStartDate.getMonth() + 1
-        }/${tempStartDate.getFullYear()}`
-      );
-      setEndDate(
-        `${tempEndDate.getDate()}/${
-          tempEndDate.getMonth() + 1
-        }/${tempEndDate.getFullYear()}`
-      );
-      setNoOfDays(tempNoOfDays);
+      setBookingDates();
     }
   }, [isFavorite]);
 
-  const handlePayment = () => {
-    navigate("/confirmation")
-  }
+  const handlePayment = async () => {
+    try {
+      const stripe = await loadStripe(import.meta.env.VITE_PAYMENT_KEY);
+      const price = car?.price * noOfDays + fee + deposit;
+      const session = await axiosInstance({
+        url: "/payment/create-checkout-session",
+        method: "POST",
+        data: {
+          car: car,
+          startDate: startDate,
+          endDate: endDate,
+          totalPrice: price,
+        },
+      });
+      const result = stripe.redirectToCheckout({
+        sessionId: session.data.sessionId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="appContainer">
@@ -105,10 +112,10 @@ const Checkout = (props) => {
           <div className="checkoutItems">
             <div className="secondaryText">Booking Dates</div>
             <div className="mediumText">
-              Start Date: <b>{startDate}</b>
+              Start Date: <b>{moment(startDate).format('DD/MM/YYYY')}</b>
             </div>
             <div className="mediumText">
-              End Date: <b>{endDate}</b>
+              End Date: <b>{moment(endDate).format('DD/MM/YYYY')}</b>
             </div>
             <div className="mediumText">
               No of Days: <b>{noOfDays}</b>
@@ -135,11 +142,15 @@ const Checkout = (props) => {
               <PriceInfo car={car} noOfDays={noOfDays} />
             </div>
             <div>
-            <b><div className="smallText mt-3">* Payment through RazorPay</div></b>
+              <b>
+                <div className="smallText mt-3">* Payment through RazorPay</div>
+              </b>
             </div>
           </div>
 
-          <button className="primary pay" onClick={handlePayment}>Pay Now</button>
+          <button className="primary pay" onClick={handlePayment}>
+            Pay Now
+          </button>
         </div>
       </div>
     </div>
