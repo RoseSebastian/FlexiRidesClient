@@ -61,12 +61,12 @@ const CarWishlistCard = (props) => {
           </div>
           <div className="wishlistDetails">
             <h4 className="primaryText">Total: Rs: {car.price * noOfDays}</h4>
-            {moment(startDate).isSameOrBefore(new Date()) ? (
+            {moment(startDate).isSameOrAfter(new Date()) ? (
               <>
-                <button className="primary" onClick={() => checkoutCar(e)}>
+                <button className="primary" onClick={checkoutCar}>
                   Checkout
                 </button>
-                <button className="cancel" onClick={() => removeCar(e)}>
+                <button className="cancel" onClick={removeCar}>
                   Remove
                 </button>
               </>

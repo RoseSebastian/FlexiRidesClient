@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import profileIcon from "../../assets/profile-icon.png";
 import Image from "react-bootstrap/Image";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "../../config/axiosInstance";
 import toast from "react-hot-toast";
 import "../../styles/admin/EditUser.css";
+import { saveLoadingState } from "../../redux/feature/appSlice";
 
 const EditUser = (props) => {
   const { id, isMember } = useParams();
-  console.log(id, isMember);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
   const fetchApi = isMember ? `user/profile/${id}` : `admin/profile/${id}`;
   const editApi = isMember ? `user/edit/${id}` : `admin/edit/${id}`;
   const [user, setUser] = useState();
@@ -72,9 +75,35 @@ const EditUser = (props) => {
       profilePic: user?.profilePic || null,
     });
     setIsEditing(false);
+    setIsFormValid(false);
   };
 
-  const handleSubmit = async (e) => {};
+  const handleSubmit = async (e) => {    
+    e.preventDefault();
+    dispatch(saveLoadingState(true));
+    try {
+      const response = await axiosInstance({
+        method: "PUT",
+        url: editApi,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      dispatch(saveLoadingState(false));
+      toast.success(response.data.message);
+      fetchUser();
+      setIsFormValid(false);
+      setTimeout(() => {
+        navigate("/admin/users");
+      }, 500);
+    } catch (error) {
+      dispatch(saveLoadingState(false));
+      toast.error(error.response.data.message);
+    }
+
+  };
+
   return (
     <div className="appContainer">
       <div className="signupForm">
