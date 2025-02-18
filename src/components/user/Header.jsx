@@ -63,7 +63,7 @@ export function Header() {
             <Dropdown>
               <Dropdown.Toggle variant="success" id="dropdown-basic">
                 <Image
-                  src={user.userData.profilePic ?? profileIcon}
+                  src={user.userData?.profilePic ?? profileIcon}
                   roundedCircle
                   fluid
                 />

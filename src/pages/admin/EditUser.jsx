@@ -90,8 +90,7 @@ const EditUser = (props) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      dispatch(saveLoadingState(false));
-      toast.success(response.data.message);
+      dispatch(saveLoadingState(false));      
       fetchUser();
       setIsFormValid(false);
       setTimeout(() => {
