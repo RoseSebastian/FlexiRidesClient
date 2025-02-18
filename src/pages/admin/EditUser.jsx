@@ -63,7 +63,8 @@ const EditUser = (props) => {
     setIsFormValid(isFormValid);
   };
 
-  const handleCancelSave = () => {
+  const handleCancelSave = (e) => {
+    e.preventDefault();
     setFormData({
       username: user?.username || "",
       phone: user?.phone || "",
@@ -79,7 +80,7 @@ const EditUser = (props) => {
       <div className="signupForm">
         <h2>Edit User Details</h2>
         <form onSubmit={handleSubmit} className="profileForm">
-          <div className="profileImg">
+          <div className="profileContainer">
             <Image
               src={user?.profilePic ?? profileIcon}
               roundedCircle
@@ -117,29 +118,29 @@ const EditUser = (props) => {
               required
             />
           </div>
-          {user?.role === 'user' && (
+          {user?.role === "user" && (
             <div className="profileDetails">
-            <label className="profileLabel">
-              Address:
-              <span className="required">*</span>
-            </label>
-            <textarea
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              required
-            />
-          </div>
+              <label className="profileLabel">
+                Address:
+                <span className="required">*</span>
+              </label>
+              <textarea
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
+            </div>
           )}
           <div className="profileButtons">
-              <button className="primary" type="submit" disabled={!isFormValid}>
-                Save Changes
-              </button>
-              <button className="secondary" onClick={handleCancelSave}>
-                Cancel
-              </button>
-            </div>
+            <button className="primary" type="submit" disabled={!isFormValid}>
+              Save Changes
+            </button>
+            <button className="secondary" onClick={handleCancelSave}>
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>

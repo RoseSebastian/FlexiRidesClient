@@ -177,11 +177,11 @@ const LandingPage = ({ role = "user" }) => {
               </div>
               {user.userData?.role === "admin" ? (
                 <>
-                  <div className="actionContainer">
+                  <div className="actionContainer" onClick={() => navigate("/admin/add/admin")}>
                     <h2>Add Dealer/Admin</h2>
                     <UserRoundCog size={48} />
                   </div>
-                  <div className="actionContainer">
+                  <div className="actionContainer" onClick={() => navigate("/admin/add/member")}>
                     <h2>Add Member</h2>
                     <BookUser size={48} />
                   </div>

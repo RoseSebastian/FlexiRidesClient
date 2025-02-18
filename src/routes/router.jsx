@@ -19,6 +19,7 @@ import Checkout from "../pages/user/Checkout";
 import BookingConfirmation from "../pages/user/BookingConfirmation";
 import EditUser from "../pages/admin/EditUser";
 import AddCar from "../pages/admin/AddCar";
+import AddUser from "../pages/admin/AddUser";
 
 const router = createBrowserRouter([
   {
@@ -112,6 +113,14 @@ const router = createBrowserRouter([
           {
             path: "add/car",
             element: <AddCar />
+          },
+          {
+            path: "add/member",
+            element: <AddUser  role="user"/>
+          },
+          {
+            path: "add/admin",
+            element: <AddUser  role="admin"/>
           }
         ],
       },

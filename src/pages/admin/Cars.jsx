@@ -85,7 +85,7 @@ const Cars = (props) => {
         ) : (
           <Row>
             {cars?.map((value) => (
-              <Col xs={12} sm={6} md={4} lg={3} xxl={3} key={value._id}>
+              <Col xs={12} sm={6} md={4} lg={3} xxl={3} key={value._id} className="mb-3">
                 <CarCard car={value} isAdmin={true} />
               </Col>
             ))}

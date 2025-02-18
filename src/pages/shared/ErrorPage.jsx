@@ -6,7 +6,7 @@ export const ErrorPage = ({ role = "user" }) => {
         home: "/",
     };
 
-    if (role == "admin") {
+    if (role === "admin") {
         url.home = "/admin";
     }
 

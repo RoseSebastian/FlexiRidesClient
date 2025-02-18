@@ -50,20 +50,7 @@ export function AddCar(props) {
       });
     }
   }, []);
-
-  const handleDealerChange = (e) => {
-    const { name, value, files } = e.target;
-    console.log('hjj',name, value)
-    const updatedFormData = {
-        ...formData,
-        dealerId: e.value,
-      };
-      setFormData(updatedFormData);
-      const isFormValid = Object.values(updatedFormData).every((field) => {
-        return field !== "" || field == null || typeof field === File;
-      });
-      setIsFormValid(isFormValid);
-  }
+  
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -119,7 +106,7 @@ export function AddCar(props) {
               required
             />
           </div>
-          <div>
+          <div className="mt-3">
             <label>
               License Plate:<span className="required">*</span>
             </label>
@@ -131,7 +118,7 @@ export function AddCar(props) {
               required
             />
           </div>
-          <div>
+          <div className="mt-3">
             <label>
               Body Type:<span className="required">*</span>
             </label>
@@ -144,7 +131,7 @@ export function AddCar(props) {
               required
             />
           </div>
-          <div>
+          <div className="mt-3">
             <label>
               Fuel Type:<span className="required">*</span>
             </label>
@@ -157,7 +144,7 @@ export function AddCar(props) {
               required
             />
           </div>
-          <div>
+          <div className="mt-3">
             <label>
               Transmission:<span className="required">*</span>
             </label>
@@ -170,7 +157,7 @@ export function AddCar(props) {
               required
             />
           </div>
-          <div>
+          <div className="mt-3">
             <label>
               Year of make:<span className="required">*</span>
             </label>
@@ -183,7 +170,7 @@ export function AddCar(props) {
               required
             />
           </div>
-          <div>
+          <div className="mt-3">
             <label>
               No of Seats:<span className="required">*</span>
             </label>
@@ -195,7 +182,7 @@ export function AddCar(props) {
               required
             />
           </div>
-          <div>
+          <div className="mt-3">
             <label>
               Price(per day):<span className="required">*</span>
             </label>
@@ -208,19 +195,19 @@ export function AddCar(props) {
               required
             />
           </div>
-          <Form.Select aria-label="Dealer" value={formData.dealerId} name="dealerId" onChange={handleChange}>
+          <Form.Select aria-label="Dealer" value={formData.dealerId} name="dealerId" onChange={handleChange} className="mt-3">
           <option>Select Dealer</option>
             {dealers?.map((item) => (
               <option value={item?._id}>{item?.username}</option>
             ))}
           </Form.Select>
 
-          <div>
+          <div className="mt-3">
             <label>Car Photo:</label>
             <input type="file" name="image" onChange={handleChange} />
           </div>
           <button
-            className="primary signupButton"
+            className="primary signupButton mt-4"
             type="submit"
             disabled={!isFormValid}
           >

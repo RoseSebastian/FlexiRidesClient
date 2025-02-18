@@ -42,7 +42,6 @@
     margin: 20px 0;
     display: flex;
     justify-content: center;
-    width: 300px;
 }
 .carousel-indicators{
     bottom: -40px;
@@ -56,4 +55,11 @@
 } */
 .carousel-control-next, .carousel-control-prev {
     width: 0%;
+}
+
+.featueList{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 440px;
+    gap: 10px;
 }
