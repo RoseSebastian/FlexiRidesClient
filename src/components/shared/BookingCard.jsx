@@ -8,6 +8,7 @@ import { Star, Pencil } from "lucide-react";
 
 const BookingCard = (props) => {
   const car = props.booking.carId;
+  const isAdmin = props.isAdmin;
   const [status, setStatus] = useState(props.booking?.status);
   let startDate = new Date(props.booking?.startDate) || new Date();
   let endDate = new Date(props.booking?.endDate) || new Date();
@@ -90,7 +91,7 @@ const BookingCard = (props) => {
   };
 
   return (
-    <Card className="wishlist">
+    <Card className="bookingCard">
       <Card.Body>
         <div className="wishListContainer">
           <div className="carDetails">
@@ -108,15 +109,15 @@ const BookingCard = (props) => {
               {(status === "failed" || status === "canceled") && (
                 <h4> {status} </h4>
               )}
-              {status === "confirmed" &&
-                moment(startDate).isAfter(new Date()) && (
+              {(status === "confirmed" && isAdmin=== false &&
+                moment(startDate).isAfter(new Date())) && (
                   <button className="cancel" onClick={updateBookingStatus}>
                     Cancel
                   </button>
                 )}
             </div>
 
-            {moment(endDate).isBefore(new Date()) && status === "confirmed" && (
+            {(moment(endDate).isBefore(new Date()) && status === "confirmed" && isAdmin=== false) && (
               <div>
                 <div className="d-flex">
                 <div className="smallText mb-1">Rate your car!</div>
@@ -149,6 +150,18 @@ const BookingCard = (props) => {
                     </button>
                   )}
                 </div>
+              </div>
+            )}
+            {(isAdmin === true && isReviewed) && (
+              <div className="adminRating">
+                <div className="smallText mb-1">Rating by customer on this booking</div>
+                <Rating
+                  emptySymbol={<Star color="#FEDB2C" />}
+                  fullSymbol={<Star color="#FEDB2C" fill="#FEDB2C" />}
+                  initialRating={review.rating}
+                  readOnly
+                />
+                <div className="mediumText m-2">{review.comment}</div>                
               </div>
             )}
           </div>

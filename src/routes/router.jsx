@@ -121,7 +121,11 @@ const router = createBrowserRouter([
           {
             path: "add/admin",
             element: <AddUser  role="admin"/>
-          }
+          },
+          {
+            path: "bookings",
+            element: <Bookings />,
+          },
         ],
       },
     ],

@@ -190,3 +190,11 @@ textarea {
   --bs-table-color: var(--secondary-color);
   --bs-table-bg: var(--background-color);
 }
+
+.bookingCard{
+  background: var(--footer-background-color);
+  margin: 10px 0;
+}
+.adminRating{
+  cursor: not-allowed;
+}

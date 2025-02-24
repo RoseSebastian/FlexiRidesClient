@@ -48,7 +48,7 @@ const BookingList = (props) => {
               <Row>
                 {bookings?.map((booking, index) => (
                   <Col xs={12} sm={6} xxl={6} key={booking?._id}>
-                    <BookingCard booking={booking} />
+                    <BookingCard booking={booking} isAdmin={false}/>
                   </Col>
                 ))}
               </Row>

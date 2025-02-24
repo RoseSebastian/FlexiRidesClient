@@ -56,6 +56,7 @@ export function AdminHeader() {
             {user.userData?.role === "admin" && (
               <>
                 <Link to="/admin/users">Users</Link>
+                <Link to="/admin/bookings">Bookings</Link>
               </>
             )}
             <Link to="/admin/cars">Cars</Link>
